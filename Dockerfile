@@ -4,9 +4,9 @@ ENV GDK_BACKEND="broadway"
 ENV BROADWAY_DISPLAY=":5"
 ENV DARK_MODE="false"
 
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y --no-install-recommends libgtk-3-0 libgtk-3-bin nginx gettext-base tmux wget materia-gtk-theme papirus-icon-theme gnome-icon-theme
-RUN apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
+RUN apt update && apt upgrade -y
+RUN apt install -y --no-install-recommends libgtk-3-0 libgtk-3-bin nginx gettext-base tmux wget materia-gtk-theme papirus-icon-theme gnome-icon-theme
+RUN apt clean && apt autoclean && rm -rf /var/lib/apt/lists/*
 
 RUN wget --no-check-certificate -O /usr/bin/ttyd "https://github.com/tsl0922/ttyd/releases/latest/download/ttyd.$(uname -m)"
 RUN chmod +x /usr/bin/ttyd
