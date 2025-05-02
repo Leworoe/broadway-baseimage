@@ -18,6 +18,19 @@ jobs:
       attestations: write
       id-token: write
     steps:
+      - name: Extract package name from IMAGE_NAME
+        id: extract
+        run: echo "PACKAGE_NAME=${IMAGE_NAME##*/}" >> $GITHUB_ENV
+        env:
+          IMAGE_NAME: ${{ env.IMAGE_NAME }}
+
+      - name: Delete old versions
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: ${{ env.PACKAGE_NAME }}
+          package-type: container
+          min-versions-to-keep: 0
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -57,24 +70,3 @@ jobs:
           subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
-
-      - name: Extract package name from IMAGE_NAME
-        id: extract
-        run: echo "PACKAGE_NAME=${IMAGE_NAME##*/}" >> $GITHUB_ENV
-        env:
-          IMAGE_NAME: ${{ env.IMAGE_NAME }}
-
-      - name: Delete untagged versions
-        uses: actions/delete-package-versions@v5
-        with:
-          package-name: ${{ env.PACKAGE_NAME }}
-          package-type: container
-          min-versions-to-keep: 0
-          delete-only-untagged-versions: true
-
-      - name: Delete old versions
-        uses: actions/delete-package-versions@v5
-        with:
-          package-name: ${{ env.PACKAGE_NAME }}
-          package-type: container
-          min-versions-to-keep: 2
