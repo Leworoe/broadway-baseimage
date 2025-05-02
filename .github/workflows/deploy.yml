@@ -30,6 +30,7 @@ jobs:
           package-name: ${{ env.PACKAGE_NAME }}
           package-type: container
           min-versions-to-keep: 0
+          ignore-versions: '^latest$'
 
       - name: Checkout
         uses: actions/checkout@v4
