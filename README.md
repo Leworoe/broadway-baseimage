@@ -12,7 +12,7 @@ git, docker
 
 ### Quickstart: 
 
-    docker run -it -p 8180:80 ghcr.io/leworoe/broadway-baseimage:main /bin/bash
+    docker run -it -p 8180:80 ghcr.io/leworoe/broadway-baseimage:latest /bin/bash
 
 In the container shell, 
 
@@ -43,7 +43,7 @@ In your Dockerfile you generally want to do the following:
 
 Example (from [docker-virt-manager](https://github.com/Leworoe/docker-virt-manager)):
 
-    FROM ghcr.io/leworoe/broadway-baseimage:main
+    FROM ghcr.io/leworoe/broadway-baseimage:latest
 
     ENV FAVICON_URL="/images/virt-manager.png"
     ENV APP_TITLE="Virtual Machine Manager"
