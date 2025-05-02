@@ -18,20 +18,6 @@ jobs:
       attestations: write
       id-token: write
     steps:
-      - name: Extract package name from IMAGE_NAME
-        id: extract
-        run: echo "PACKAGE_NAME=${IMAGE_NAME##*/}" >> $GITHUB_ENV
-        env:
-          IMAGE_NAME: ${{ env.IMAGE_NAME }}
-
-      - name: Delete old versions
-        uses: actions/delete-package-versions@v5
-        with:
-          package-name: ${{ env.PACKAGE_NAME }}
-          package-type: container
-          min-versions-to-keep: 0
-          ignore-versions: '^latest$'
-
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -71,3 +57,19 @@ jobs:
           subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
+
+  cleanup:
+    name: Cleanup untagged images
+    runs-on: ubuntu-latest
+    needs: docker
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: Delete untagged images from GHCR
+        uses: actions/delete-package-versions@v4
+        with:
+          package-name: ${{ github.event.repository.name }}
+          package-type: container
+          delete-only-untagged-versions: true
+          min-versions-to-keep: 5
