@@ -1,0 +1,24 @@
+name: Delete Untagged Container Versions
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+env:
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  delete_versions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract package name from IMAGE_NAME
+        id: extract
+        run: echo "PACKAGE_NAME=${IMAGE_NAME##*/}" >> $GITHUB_ENV
+        env:
+          IMAGE_NAME: ${{ env.IMAGE_NAME }}
+      - name: Delete old versions
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: ${{ env.PACKAGE_NAME }}
+          package-type: container
+          min-versions-to-keep: 1
