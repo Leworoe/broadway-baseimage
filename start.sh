@@ -2,12 +2,12 @@
 set -e
 if [ $DARK_MODE = true ] ; then
   export TERM_COLOR="filter: invert(14%) sepia(7%) saturate(14%) hue-rotate(16deg) brightness(102%) contrast(90%);"
-  export GTK_THEME="Materia-dark"
+  export GTK_THEME="Breeze-Dark"
   export BG_GRADIENT="#111, #222"
   rm -rf /usr/share/icons/hicolor && ln -s Papirus-Dark /usr/share/icons/hicolor
 else
   export TERM_COLOR=""
-  export GTK_THEME="Materia-light"
+  export GTK_THEME="Breeze"
   export BG_GRADIENT="#ddd, #999"
   rm -rf /usr/share/icons/hicolor && ln -s Papirus-Light /usr/share/icons/hicolor
 fi
